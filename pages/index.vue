@@ -10,7 +10,7 @@ import {ref, computed, onMounted, watchEffect } from 'vue'
 
 const cooldownTime = ref<number>(0)
 const countdown = computed(() => {
-  return `${cooldownTime.value}%`
+  return `${cooldownTime.value}`
 })
 
 definePageMeta({
