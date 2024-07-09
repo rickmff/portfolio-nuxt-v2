@@ -10,7 +10,6 @@ class ContentfulService {
 
   public async getEntries(contentType: string): Promise<any> {
     try {
-      console.log(this.client)
       const entries: EntryCollection<any> = await this.client.getEntries({
         content_type: contentType
       });
