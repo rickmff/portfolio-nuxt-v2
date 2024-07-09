@@ -1,5 +1,6 @@
 <template>
   <CustomCursor />
+
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>

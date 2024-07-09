@@ -1,4 +1,7 @@
 <template>
+  <div v-if="cooldownTime !== 100" class="bg-background absolute top-0 left-0 z-20 flex flex-col items-center justify-center h-screen w-screen overflow-hidden">
+    <div class="font-hero text-primary text-5xl mb-4 opacity-50">{{ countdown }}</div>
+  </div>
   <div
     id="hero"
     class="h-screen w-screen overflow-hidden relative bg-bottom bg-no-repeat"
@@ -54,7 +57,21 @@ const bgImageStyle = computed(() => {
   return hero.value ? `background-image: url('${hero.value}')` : "";
 });
 
+const cooldownTime = ref<number>(0)
+const countdown = computed(() => {
+  return `${cooldownTime.value}`
+})
+
 onMounted(() => {
+  const intervalId = setInterval(() => {
+    cooldownTime.value = cooldownTime.value !== 100 ? cooldownTime.value + 1 : 100
+  }, 30)
+
+  // Clean up interval when component is unmounted
+  watchEffect(onInvalidate => {
+    onInvalidate(() => clearInterval(intervalId))
+  })
+
   ContentfulService.getEntries("hero").then((response) => {
     hero.value = response[0].hero.fields.file.url;
   });
@@ -63,7 +80,7 @@ onMounted(() => {
     setTimeout(() => {
       showLabelMyWork(false);
     }, 3000);
-  }, 10000);
+  }, 8000);
 });
 </script>
 

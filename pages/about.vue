@@ -16,6 +16,7 @@ const aboutContent = ref();
 onMounted(() => {
   ContentfulService.getEntries("about").then((response) => {
     aboutContent.value = response.items[0].fields;
+    console.log(aboutContent.value);
   });
 });
 </script>

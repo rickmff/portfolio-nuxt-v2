@@ -6,54 +6,96 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onBeforeUnmount, watch } from "vue";
+import { useRoute } from "vue-router";
 
 const cursorDot = ref<HTMLElement | null>(null);
 const cursorOutline = ref<HTMLElement | null>(null);
 
-onMounted(() => {
-  if (import.meta.client) {
-    const dot = cursorDot.value;
-    const outline = cursorOutline.value;
+let mouseMoveHandler: ((e: MouseEvent) => void) | null = null;
+let elementsToHoverStyle: NodeListOf<Element> | null = null;
 
-    window.addEventListener("mousemove", function (e) {
+const initializeCursor = () => {
+  const dot = cursorDot.value;
+  const outline = cursorOutline.value;
+
+  if (dot && outline) {
+    mouseMoveHandler = (e: MouseEvent) => {
       const posX = e.clientX;
       const posY = e.clientY;
 
-      if (dot && outline) {
-        dot.style.left = `${posX}px`;
-        dot.style.top = `${posY}px`;
+      dot.style.left = `${posX}px`;
+      dot.style.top = `${posY}px`;
 
-        outline.animate(
-          [
-            // Keyframes
-            { left: `${posX}px`, top: `${posY}px` },
-            // You can add more keyframes here if needed
-          ],
-          {
-            // Animation options
-            duration: 500, // Example duration
-            fill: "forwards", // Example fill mode
-          }
-        );
-      }
-    });
+      outline.animate(
+        [
+          // Keyframes
+          { left: `${posX}px`, top: `${posY}px` },
+          // You can add more keyframes here if needed
+        ],
+        {
+          // Animation options
+          duration: 500, // Example duration
+          fill: "forwards", // Example fill mode
+        }
+      );
+    };
 
-    // Optional: Handle mouseenter and mouseleave for elements that should not have custom cursor
-    const elementsToIgnore = document.querySelectorAll("a, button");
-    elementsToIgnore.forEach((element) => {
-      element.addEventListener("mouseenter", () => {
-        if (dot) dot.style.opacity = "0";
-        if (outline) outline.classList.remove("cursor-outline-hoverOut");
-        if (outline) outline.classList.add("cursor-outline-hoverIn");
-      });
-      element.addEventListener("mouseleave", () => {
-        if (dot) dot.style.opacity = "0.7";
-        if (outline) outline.classList.remove("cursor-outline-hoverIn");
-        if (outline) outline.classList.add("cursor-outline-hoverOut");
-      });
+    window.addEventListener("mousemove", mouseMoveHandler);
+
+    elementsToHoverStyle = document.querySelectorAll("a, button");
+    elementsToHoverStyle.forEach((element) => {
+      element.addEventListener("mouseenter", handleMouseEnter);
+      element.addEventListener("mouseleave", handleMouseLeave);
     });
   }
+};
+
+const cleanupCursor = () => {
+  if (mouseMoveHandler) {
+    window.removeEventListener("mousemove", mouseMoveHandler);
+  }
+
+  if (elementsToHoverStyle) {
+    elementsToHoverStyle.forEach((element) => {
+      element.removeEventListener("mouseenter", handleMouseEnter);
+      element.removeEventListener("mouseleave", handleMouseLeave);
+    });
+  }
+};
+
+const handleMouseEnter = () => {
+  const dot = cursorDot.value;
+  const outline = cursorOutline.value;
+  if (dot) dot.style.opacity = "0";
+  if (outline) {
+    outline.classList.remove("cursor-outline-hoverOut");
+    outline.classList.add("cursor-outline-hoverIn");
+  }
+};
+
+const handleMouseLeave = () => {
+  const dot = cursorDot.value;
+  const outline = cursorOutline.value;
+  if (dot) dot.style.opacity = "0.7";
+  if (outline) {
+    outline.classList.remove("cursor-outline-hoverIn");
+    outline.classList.add("cursor-outline-hoverOut");
+  }
+};
+
+onMounted(() => {
+  initializeCursor();
+});
+
+onBeforeUnmount(() => {
+  cleanupCursor();
+});
+
+const route = useRoute();
+watch(route, () => {
+  cleanupCursor();
+  initializeCursor();
 });
 </script>
 
@@ -92,11 +134,13 @@ body {
   scale: 1;
   opacity: 0.2;
   transition: all 2s;
+  background-color: transparent;
 }
 .cursor-outline-hoverIn {
   scale: 1.5;
   opacity: 0.5;
-  transition: all 2s;
+  transition: all 1s;
+  background-color: #ff530a36;
 }
 
 /* Explicitly set default cursor for links and buttons */

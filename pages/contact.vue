@@ -13,11 +13,4 @@ import ContentfulService from "@/services/contentful.services";
 definePageMeta({
   layout: "default",
 });
-const hero = ref();
-
-onMounted(() => {
-  ContentfulService.getEntries("hero").then((response) => {
-    hero.value = response.items[0].fields.title;
-  });
-});
 </script>
