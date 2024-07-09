@@ -4,10 +4,10 @@
     class="h-screen w-screen overflow-hidden relative bg-bottom bg-no-repeat"
   >
     <div class="relative w-full h-screen flex justify-center items-center z-10">
-      <h1 class="font-hero text-6xl">Henrique Faria</h1>
+      <h1 class="font-hero text-7xl">Henrique Faria</h1>
       <div class="absolute flex flex-col items-center bottom-20">
         <button
-          class="w-10 h-10 bg-white rounded-full hover:bg-primary duration-500 opacity-90 hover:opacity-100"
+          class="w-10 h-10 bg-white rounded-full hover:bg-primary duration-500 opacity-90 hover:opacity-100 hover:scale-110"
           @click="openWorkGrid"
           @mouseover="showLabelMyWork(true)"
           @mouseleave="showLabelMyWork(false)"
@@ -62,7 +62,7 @@ onMounted(() => {
     showLabelMyWork(true);
     setTimeout(() => {
       showLabelMyWork(false);
-    }, 2000);
+    }, 3000);
   }, 10000);
 });
 </script>
@@ -108,7 +108,7 @@ onMounted(() => {
 
 .my-work-label {
   opacity: 0;
-  transition: opacity 0.5s ease;
+  transition: opacity 1.5s ease;
 }
 
 .my-work-label.opacity-100 {
