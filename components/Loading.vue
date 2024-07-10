@@ -31,6 +31,6 @@ onMounted(() => {
       loading.value = false;
       clearInterval(intervalId);
     }
-  }, 30);
+  }, 20);
 });
 </script>

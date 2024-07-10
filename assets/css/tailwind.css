@@ -4,10 +4,14 @@
 
 
 /* Your custom styles here */
-* {
+body {
   font-family: inter, sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   letter-spacing: 1.5px;
+}
+* {
+  margin: 0;
+  padding: 0;
 }
