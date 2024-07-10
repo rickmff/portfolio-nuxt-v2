@@ -4,37 +4,33 @@
       <li
         v-for="item in menuList"
         :key="item.name"
-        :class="{ 'text-orange-500 opacity-100 font-medium pointer-events-none': isActive(item.link) }"
-        class="opacity-80 hover:opacity-100"
+        :class="{ 'text-orange-500 opacity-100 font-medium pointer-events-none': isActive(item.name) }"
+        class="opacity-90 capitalize transition duration-500 ease-in-out"
       >
-        <nuxt-link :to="item.link">{{ item.name }}</nuxt-link>
+        <nuxt-link :to="{ name: item.name }" prefetch>{{ item.name }}</nuxt-link>
       </li>
     </ul>
   </nav>
 </template>
 
 <script setup>
-import { useRoute } from "vue-router";
 const route = useRoute();
 const menuList = [
   {
-    name: "Work",
-    link: "/work",
+    name: "work",
     current: true,
   },
   {
-    name: "About",
-    link: "/about",
+    name: "about",
     current: false,
   },
   {
-    name: "Contact",
-    link: "/contact",
+    name: "contact",
     current: false,
   },
 ];
 
-function isActive (link) {
-  return link === route.path;
+function isActive (routerName) {
+  return routerName === route.name;
 };
 </script>
