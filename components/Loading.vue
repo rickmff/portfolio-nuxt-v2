@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, onMounted, watchEffect } from "vue";
+import { ref, computed, onMounted } from "vue";
 
 const loading = ref(true);
 const isLoading = useState('isLoading', () => loading)
