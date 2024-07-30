@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed scale-150 top-[45%] left-36 z-[1000]">
+  <div class="fixed xl:scale-150 scale-125 top-96 left-36 z-[1000]">
     <div
       ref="minimap"
       class="minimap min-w-[200px]"
@@ -10,7 +10,7 @@
       <div ref="minimapSize" class="relative z-[5]"></div>
       <div
         ref="viewer"
-        class="absolute top-0 w-[95%] scale-90 z-[100] border border-[#f3f4f617]"
+        class="absolute top-0 w-full scale-90 z-[100] border border-[#f3f4f617]"
         :style="{
           'padding-top': `${winRatio * 100}%`,
           'transform-origin': '0 0',
