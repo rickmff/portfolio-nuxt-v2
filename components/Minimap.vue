@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed scale-150 top-40 left-36 z-[1000]">
+  <div class="fixed scale-150 top-44 left-36 z-[1000]">
     <div
       ref="minimap"
       class="minimap min-w-[200px]"
