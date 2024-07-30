@@ -61,7 +61,7 @@
             </h2>
             <div v-for="item in experiences?.content" :key="item.title" class="mb-4">
               <h3 class="text-5xl my-10">{{item.company}} <span class="text-lg opacity-30">{{item.startDate}}</span></h3>
-              <h4 class="text-2xl my-10 opacity-70">{{item.position}}</h4>
+              <h4 class="text-2xl my-5 opacity-70">{{item.position}}</h4>
               <p class="text-2xl opacity-30">{{ item.description }}</p>
             </div>
           </div>
