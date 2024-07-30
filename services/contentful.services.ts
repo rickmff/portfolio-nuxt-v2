@@ -4,7 +4,7 @@ import { type EntryCollection, type ContentfulClientApi } from 'contentful';
 class ContentfulService {
   private client;
 
-  constructor(client: ContentfulClientApi) {
+  constructor(client: ContentfulClientApi<any>) {
     this.client = client;
   }
 

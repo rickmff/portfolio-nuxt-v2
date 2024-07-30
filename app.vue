@@ -8,15 +8,15 @@
 
 <script setup lang="ts">
 import { useRoute } from "vue-router";
+import {onMounted} from "vue"
 const route = useRoute();
 
 useSeoMeta({
   title: () =>
-    `${
-      route.path === "/"
-        ? "Home"
-        : route.path.replace("/", "").charAt(0).toUpperCase() +
-          route.path.replace("/", "").slice(1)
+    `${route.path === "/"
+      ? "Home"
+      : route.path.replace("/", "").charAt(0).toUpperCase() +
+      route.path.replace("/", "").slice(1)
     }`,
   ogTitle: "My Amazing Site",
   description: "This is my amazing site, let me tell you all about it.",
@@ -27,14 +27,25 @@ useSeoMeta({
 </script>
 
 <style>
+html {
+  scroll-behavior: smooth;
+}
+
 body::-webkit-scrollbar {
   display: none;
 }
+
 body {
-  -ms-overflow-style: none; /* IE and Edge */
-  user-select: none; /* Standard syntax */
-  -webkit-user-select: none; /* Safari */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  user-select: none;
+  /* Standard syntax */
+  -webkit-user-select: none;
+  -webkit-text-size-adjust: none;
+  -webkit-font-smoothing: antialiased;
+  /* Safari */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
 }
 </style>

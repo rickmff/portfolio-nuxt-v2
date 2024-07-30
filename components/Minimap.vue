@@ -1,31 +1,32 @@
 <template>
-  <div class="fixed scale-150">
-  <div
-    ref="minimap"
-    class="minimap absolute top-32 min-w-[200px] z-[100]"
-    style="width: 15%"
-  >
-    <div ref="minimapSize" class="relative z-[5]"></div>
+  <div class="fixed scale-125 top-24 z-[1000]">
     <div
-      ref="viewer"
-      class="absolute top-0 left-[-2.5%] w-[95%] z-[100] border border-[#f3f4f617]"
-      :style="{
-        'padding-top': `${winRatio * 100}%`,
-        'transform-origin': '0 0',
-      }"
-    ></div>
-    <div
-      ref="minimapContent"
-      class="absolute top-0 left-0 w-full h-full z-[-1]"
-      :style="{
-        'transform-origin': '0 0',
-        transform: `scale(${realScale})`,
-        width: `${100 / realScale}%`,
-        height: `${100 / realScale}%`,
-      }"
-      v-html="filteredContent"
-    ></div>
-  </div>
+      ref="minimap"
+      class="minimap min-w-[200px]"
+      style="width: 15%"
+    >
+      <div ref="minimapSize" class="relative z-[5]"></div>
+      <div
+        ref="viewer"
+        class="absolute top-0 left-[-2.5%] w-[95%] z-[100] border border-[#f3f4f617]"
+        :style="{
+          'padding-top': `${winRatio * 100}%`,
+          'transform-origin': '0 0',
+          transform: `translateY(${scrollPosition}px)`,
+        }"
+      ></div>
+      <div
+        ref="minimapContent"
+        class="absolute top-0 left-0 w-full h-full z-[-1]"
+        :style="{
+          'transform-origin': '0 0',
+          transform: `scale(${realScale})`,
+          width: `${100 / realScale}%`,
+          height: `${100 / realScale}%`,
+        }"
+        v-html="filteredContent"
+      ></div>
+    </div>
   </div>
 </template>
 
@@ -43,6 +44,7 @@ const minimapSize = ref<HTMLDivElement | null>(null);
 const viewer = ref<HTMLDivElement | null>(null);
 const minimapContent = ref<HTMLDivElement | null>(null);
 const winRatio = ref(0);
+const scrollPosition = ref(0);
 let realScale = 0;
 
 const filterHTML = (html: string): string => {
@@ -76,10 +78,13 @@ const setupDimensions = (): void => {
 };
 
 const trackScroll = (): void => {
-  if (viewer.value)
-    viewer.value.style.transform = `translateY(${
-      window.scrollY * realScale
-    }px)`;
+  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+  const scrollPercentage = window.scrollY / maxScroll;
+  const minimapHeight = minimap.value?.clientHeight || 0;
+  const viewerHeight = viewer.value?.clientHeight || 0;
+  const maxMinimapScroll = minimapHeight - viewerHeight;
+  
+  scrollPosition.value = scrollPercentage * maxMinimapScroll;
 };
 
 onMounted(() => {
