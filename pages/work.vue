@@ -63,8 +63,8 @@ onMounted(() => {
     showLabelMyWork(true);
     setTimeout(() => {
       showLabelMyWork(false);
-    }, 3000);
-  }, 8000);
+    }, 1000);
+  }, 3000);
 });
 </script>
 
