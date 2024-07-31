@@ -9,11 +9,12 @@
           <img :src="thumb.fields.file.url" draggable="false"
             class="max-w-auto my-3 opacity-30 aspect-video group-hover:scale-125 hover:opacity-100 transition-all duration-500"
             @dblclick="console.log(thumb.fields.description)" :alt="thumb.fields.title" />
-          <div class="flex justify-between items-baseline group-hover:pt-8 group-hover:scale-125 transition-all duration-500">
+          <div
+            class="group-hover:opacity-30 flex justify-center items-baseline group-hover:pt-8 group-hover:scale-125 opacity-0 transition-all duration-300">
             <a :href="thumb.fields.description" target="_blank">
-              <Text tag="p">@{{ thumb.fields.title }}</Text>
+              <Text tag="p" class="text-2xl">{{ thumb.fields.title }}</Text>
             </a>
-            <Text tag="span" class="opacity-30">2022</Text>
+            <!--             <Text tag="span" class="opacity-30">2022</Text>-->
           </div>
         </div>
       </div>
