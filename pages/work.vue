@@ -5,7 +5,7 @@
     :class="{ '-translate-y-2/4': showWorkGrid }">
     <div class="relative w-full h-screen flex justify-center items-center z-10">
       <Text tag="h1" text="Henrique Faria" class="transition-all duration-1000"
-        :class="{ 'translate-y-[250%]': showWorkGrid }" />
+        :class="{ 'translate-y-[300%]': showWorkGrid }" />
       <div class="absolute flex flex-col items-center bottom-20">
         <button
           class="w-10 h-10 bg-white rounded-full hover:bg-primary duration-500 opacity-90 hover:opacity-100 hover:scale-110"
@@ -13,18 +13,22 @@
         <span :class="['my-work-label text-xs mt-2', showLabelClass]">My work</span>
       </div>
     </div>
-    <div :style="bgImageStyle" class="bg-cover bg-center bg-no-repeat zoom absolute top-0 left-0 right-0 bottom-0">
+    <div :style="bgImageStyle" class="bg-cover bg-center bg-no-repeat absolute top-0 left-0 right-0 bottom-0"
+      :class="{ 'zoom': !showWorkGrid }">
     </div>
     <div class="absolute bottom-5 right-5 opacity-50">
-      <div class="bg-secondary rounded-md p-1 flex justify-center items-center w-5 h-5 text-xs m-auto origin-center">↑</div>
+      <div class="bg-secondary rounded-md p-1 flex justify-center items-center w-5 h-5 text-xs m-auto origin-center">↑
+      </div>
       <div class="flex gap-1 mt-1">
         <div v-for="i in ['←', '↓', '→']"
-          class="bg-secondary rounded-md p-1 flex justify-center items-center w-5 h-5 text-xs origin-center">{{ i }}</div>
+          class="bg-secondary rounded-md p-1 flex justify-center items-center w-5 h-5 text-xs origin-center">{{ i }}
+        </div>
       </div>
     </div>
   </div>
-  <div class="absolute bottom-8 left-8 flex gap-5 transition-all duration-1000 overflow-hidden" :class="{ 'opacity-0': !showWorkGrid }">
-    <div v-for="i in 4" class="w-80 h-80 border rounded-md border-[#ffffff1a]"></div>
+  <div class="w-full h-full absolute bottom-8 left-8 flex gap-5 transition-all duration-1000 overflow-hidden"
+    :class="{ 'opacity-0': !showWorkGrid }">
+    <ProjectsSlide />
   </div>
 </template>
 
@@ -107,7 +111,7 @@ onUnmounted(() => {
 }
 
 .zoom {
-  animation: scale 40s linear infinite;
+  animation: scale 30s linear infinite;
 }
 
 @keyframes scale {

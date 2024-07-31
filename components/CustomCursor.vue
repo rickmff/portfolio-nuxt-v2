@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="hidden md:block">
     <div class="cursor-dot" ref="cursorDot"></div>
     <div class="cursor-outline" ref="cursorOutline"></div>
   </div>
