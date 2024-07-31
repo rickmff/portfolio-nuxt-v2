@@ -1,6 +1,10 @@
 export default defineNuxtConfig({
+  ssr: false,
   devtools: { enabled: true },
   css: ['~/assets/css/tailwind.css'],
+  plugins: [
+    '~/plugins/directives.ts'
+  ],
 
   runtimeConfig: {
     private: {
@@ -22,8 +26,6 @@ export default defineNuxtConfig({
       scrollBehaviorType: 'smooth'
     }
   },
-
-  ssr: false,
 
   postcss: {
     plugins: {

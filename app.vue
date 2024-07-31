@@ -36,8 +36,6 @@ body::-webkit-scrollbar {
 }
 
 body {
-  overscroll-behavior-y: none;
-
   -ms-overflow-style: none;
   /* IE and Edge */
   user-select: none;

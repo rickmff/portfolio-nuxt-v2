@@ -1,5 +1,5 @@
 <template>
-  <div ref="mainContent">
+  <div ref="mainContent" class="relative" v-scroll-on-hold>
     <div class="flex justify-center">
       <!-- Minimap container -->
       <ClientOnly>
@@ -7,18 +7,24 @@
           <Minimap :content="mainContentHTML" />
         </div>
       </ClientOnly>
-      <div class="lg:w-3/5 px-10">
+      <div class="lg:w-3/5 px-10 my-64">
         <!-- Profile -->
-        <div class="flex flex-col justify-center items-start my-64 pr-10">
-          <h2 class="font-hero font-bold text-6xl xl:text-8xl -m-2 mb-10 text-secondary">
-            {{ profile?.title }}
-          </h2>
-          <p class="text-3xl xl:text-4xl xl:pr-60 my-10 leading-normal"><span class="leading-normal">{{
-            profile?.content.content[0] }}</span> <br><span class="leading-normal">{{ profile?.content.content[1]
-              }}</span><br><br>
-            <span class="leading-normal">{{ profile?.content.content[2] }}</span>
-          </p>
-        </div>
+        <h2 class="font-hero font-bold text-6xl xl:text-8xl -m-2 mb-10 text-secondary">
+          {{ profile?.title }}
+        </h2>
+        <p class="text-3xl xl:text-4xl xl:pr-60 my-10 leading-normal"><span class="leading-normal">{{
+          profile?.content.content[0] }}</span> <br><span class="leading-normal">{{ profile?.content.content[1]
+            }}</span><br><br>
+          <span class="leading-normal">{{ profile?.content.content[2] }}</span>
+        </p>
+        <!--         <div class="flex flex-col justify-center items-start my-64 pr-10">
+          <Text tag="h1" :text="profile?.title"/>
+          <Text tag="p" class="text-3xl xl:text-4xl xl:pr-60 my-10 leading-normal"><Text tag="span" class="leading-normal">{{
+            profile?.content.content[0] }}</Text> <br><Text tag="span" class="leading-normal">{{ profile?.content.content[1]
+              }}</Text><br><br>
+            <Text tag="span" class="leading-normal">{{ profile?.content.content[2] }}</Text>
+          </Text>
+        </div> -->
         <!-- certificates -->
         <div class="flex flex-col justify-center items-start my-64">
           <h2 class="font-hero font-bold text-6xl xl:text-8xl -m-1 my-10 text-secondary ">
