@@ -10,10 +10,13 @@
         <nuxt-link :to="{ name: item.name }" prefetch>{{ item.name }}</nuxt-link>
       </li>
     </ul>
+    <button></button>
   </nav>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import type { RouteRecordNameGeneric } from 'vue-router';
+
 const route = useRoute();
 const menuList = [
   {
@@ -30,7 +33,7 @@ const menuList = [
   },
 ];
 
-function isActive (routerName) {
+function isActive (routerName: RouteRecordNameGeneric) {
   return routerName === route.name;
 };
 </script>

@@ -1,81 +1,86 @@
 <template>
   <div ref="mainContent">
-    <section>
-      <div class="flex justify-center">
-        <!-- Minimap container -->
-        <ClientOnly>
-          <div v-if="showMinimap" class="relative w-2/5 lg:block hidden">
-            <Minimap :content="mainContentHTML" />
-          </div>
-        </ClientOnly>
-        <div class="lg:w-3/5 px-10">
-          <!-- Profile -->
-          <div class="flex flex-col justify-center items-start my-64 pr-10">
-            <h2 class="font-hero font-bold text-6xl xl:text-8xl -m-2 mb-10 text-secondary">
-              {{ profile?.title }}
-            </h2>
-            <p class="text-5xl my-10 leading-snug">{{ profile?.content.content[0] }} <br>{{ profile?.content.content[1] }}<br>
-              {{ profile?.content.content[2] }}</p>
-          </div>
-          <!-- certificates -->
-          <div class="flex flex-col justify-center items-start my-64">
-            <h2 class="font-hero font-bold text-6xl xl:text-8xl -m-1 my-10 text-secondary ">
-              {{ certificates?.title }}
-            </h2>
-            <div v-for="item in certificates?.content" :key="item.title" class="mb-4">
-              <h3 class="text-3xl xl:text-5xl my-10">{{ item.certificate }}</h3>
-              <p class="text-2xl opacity-30">{{ item.description }}</p>
-            </div>
-          </div>
-
-          <!-- Awards -->
-          <div class="flex flex-col justify-center items-start my-64">
-            <h2 class="font-hero font-bold text-6xl xl:text-8xl my-10 text-secondary ">
-              {{ awards?.title }}
-            </h2>
-            <div v-for="item in awards?.content" :key="item.title" class="mb-4">
-              <h3 class="text-3xl xl:text-5xl my-10"><span :class="item.place === 'Gold' ? 'text-amber-200' : 'text-orange-200'">{{
-                  item.place }}</span> {{ item.award
-                }} <span class="text-lg opacity-30">{{ item.date }}</span></h3>
-              <p class="text-2xl opacity-30">{{ item.description }}</p>
-            </div>
-          </div>
-
-          <!-- Stack -->
-          <div class="flex flex-col justify-center items-start my-64">
-            <h2 class="font-hero font-bold text-6xl xl:text-8xl my-10 text-secondary ">
-              {{ stack?.title }}
-            </h2>
-            <div v-for="item, key in stack?.content" :key="item.title" class="mb-4">
-              <h3 class="text-3xl xl:text-5xl my-10">{{ key }}</h3>
-              <ul class="flex flex-col xl:flex-row gap-5">
-                <li v-for="subItem in item" :key="item" class="text-2xl opacity-30 whitespace-nowrap">{{ subItem }}</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Experience -->
-          <div class="flex flex-col justify-center items-start my-64">
-            <h2 class="font-hero font-bold text-6xl xl:text-8xl my-10 text-secondary ">
-              {{ experiences?.title }}
-            </h2>
-            <div v-for="item in experiences?.content" :key="item.title" class="mb-4">
-              <h3 class="text-3xl xl:text-5xl my-10">{{item.company}} <span class="text-lg opacity-30">{{item.startDate}}</span></h3>
-              <h4 class="text-2xl my-5 opacity-70">{{item.position}}</h4>
-              <p class="text-2xl opacity-30">{{ item.description }}</p>
-            </div>
-          </div>
-          <!-- More sections (Stack, Experience) can be added here -->
+    <div class="flex justify-center">
+      <!-- Minimap container -->
+      <ClientOnly>
+        <div v-if="showMinimap" class="relative w-2/5 lg:block hidden">
+          <Minimap :content="mainContentHTML" />
         </div>
+      </ClientOnly>
+      <div class="lg:w-3/5 px-10">
+        <!-- Profile -->
+        <div class="flex flex-col justify-center items-start my-64 pr-10">
+          <h2 class="font-hero font-bold text-6xl xl:text-8xl -m-2 mb-10 text-secondary">
+            {{ profile?.title }}
+          </h2>
+          <p class="text-3xl xl:text-4xl xl:pr-60 my-10 leading-normal"><span class="leading-normal">{{
+            profile?.content.content[0] }}</span> <br><span class="leading-normal">{{ profile?.content.content[1]
+              }}</span><br><br>
+            <span class="leading-normal">{{ profile?.content.content[2] }}</span>
+          </p>
+        </div>
+        <!-- certificates -->
+        <div class="flex flex-col justify-center items-start my-64">
+          <h2 class="font-hero font-bold text-6xl xl:text-8xl -m-1 my-10 text-secondary ">
+            {{ certificates?.title }}
+          </h2>
+          <div v-for="item in certificates?.content" :key="item.title" class="mb-4">
+            <h3 class="text-3xl xl:text-5xl my-10">{{ item.certificate }}</h3>
+            <p class="text-2xl opacity-30">{{ item.description }}</p>
+          </div>
+        </div>
+
+        <!-- Awards -->
+        <div class="flex flex-col justify-center items-start my-64">
+          <h2 class="font-hero font-bold text-6xl xl:text-8xl my-10 text-secondary ">
+            {{ awards?.title }}
+          </h2>
+          <div v-for="item in awards?.content" :key="item.title" class="mb-4">
+            <h3 class="text-3xl xl:text-5xl my-10"><span
+                :class="item.place === 'Gold' ? 'text-amber-200' : 'text-orange-200'">{{
+                  item.place }}</span> {{ item.award
+              }} <span class="text-lg opacity-30">{{ item.date }}</span></h3>
+            <p class="text-2xl opacity-30">{{ item.description }}</p>
+          </div>
+        </div>
+
+        <!-- Stack -->
+        <div class="flex flex-col justify-center items-start my-64">
+          <h2 class="font-hero font-bold text-6xl xl:text-8xl my-10 text-secondary ">
+            {{ stack?.title }}
+          </h2>
+          <div v-for="item, key in stack?.content" :key="item.title" class="mb-4">
+            <h3 class="text-3xl xl:text-5xl my-10">{{ key }}</h3>
+            <ul class="flex flex-col xl:flex-row gap-5">
+              <li v-for="subItem in item" :key="item" class="text-2xl opacity-30 whitespace-nowrap">{{ subItem }}
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Experience -->
+        <div class="flex flex-col justify-center items-start my-64">
+          <h2 class="font-hero font-bold text-6xl xl:text-8xl my-10 text-secondary ">
+            {{ experiences?.title }}
+          </h2>
+          <div v-for="item in experiences?.content" :key="item.title" class="mb-4">
+            <h3 class="text-3xl xl:text-5xl my-10">{{ item.company }} <span class="text-lg opacity-30">{{
+              item.startDate }}</span></h3>
+            <h4 class="text-2xl my-5 opacity-70">{{ item.position }}</h4>
+            <p class="text-2xl opacity-30">{{ item.description }}</p>
+          </div>
+        </div>
+        <!-- More sections (Stack, Experience) can be added here -->
       </div>
-    </section>
+    </div>
   </div>
+
+  <GoToTop />
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref, nextTick, computed } from "vue";
 import ContentfulService from "@/services/contentful.services";
-import Minimap from "@/components/Minimap.vue";
 
 interface ContentItem {
   title: string;
@@ -118,7 +123,7 @@ const mainContent = ref<HTMLElement | null>(null);
 const showMinimap = ref(false);
 
 const mainContentHTML = computed((): string => {
-  if (import.meta.server) return ''; // Return empty string on server-side
+  if (import.meta.server) return '';
   return mainContent.value?.outerHTML || "";
 });
 
