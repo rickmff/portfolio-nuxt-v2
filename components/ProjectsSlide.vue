@@ -7,12 +7,11 @@
         <!-- Check if thumb exists and iterate over it -->
         <div v-for="(thumb, index) in projects[0].thumb" :key="thumb.fields.title" class="group w-[32rem] hover:z-10">
           <img :src="thumb.fields.file.url" draggable="false"
-            class="max-w-auto my-3 opacity-30 aspect-video group-hover:scale-125 hover:opacity-100 transition-all duration-500"
-            @dblclick="console.log(thumb.fields.description)" :alt="thumb.fields.title" />
-          <div
-            class="group-hover:opacity-30 flex justify-center items-baseline group-hover:pt-8 group-hover:scale-125 opacity-0 transition-all duration-300">
-            <a :href="thumb.fields.description" target="_blank">
-              <Text tag="p" class="text-2xl">{{ thumb.fields.title }}</Text>
+            class="relative max-w-auto my-3 opacity-30 aspect-video group-hover:scale-125 hover:opacity-100 transition-all duration-500" :alt="thumb.fields.title" />
+            <div
+            class="group-hover:opacity-50 flex justify-center items-baseline group-hover:pt-8 group-hover:scale-125 opacity-0 transition-all duration-300">
+            <a :href="thumb.fields.description" target="_blank" class="flex">
+              <Text tag="p" class="text-2xl hover:text-primary">{{ thumb.fields.title }}</Text><img :src="Link" alt="link" class="scale-50 ">
             </a>
             <!--             <Text tag="span" class="opacity-30">2022</Text>-->
           </div>
@@ -29,6 +28,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import ContentfulService from "@/services/contentful.services";
+import Link from '@/assets/img/link.gif'
 
 const containerRef = ref(null);
 const trackRef = ref(null);
@@ -102,7 +102,7 @@ onMounted(async () => {
   gap: 2vmin;
   position: absolute;
   left: 40%;
-  top: 60%;
+  top: 58%;
   transform: translateY(-50%);
   user-select: none;
 }
