@@ -1,6 +1,6 @@
 <template>
   <component :is="props.tag" ref="textRef"
-    :class="{ 'font-hero text-3xl lg:text-7xl': tag === 'h1', 'font-hero font-bold text-6xl xl:text-8xl': tag === 'h2', 'text-3xl xl:text-4xl': tag === 'p' }">
+    :class="{ 'font-hero text-3xl lg:text-7xl': tag === 'h1', 'font-hero font-bold text-6xl xl:text-8xl': tag === 'h2', 'text-3xl xl:text-4xl': tag === 'p', 'font-hero font-semibold text-xl lg:text-2xl text-secondary group-hover:text-primary transition-all duration-1000': tag === 'a' }">
     <span v-for="(char, index) in charArray" :key="index" class="char">
       {{ char === ' ' ? '\u00A0' : char }}
     </span>

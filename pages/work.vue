@@ -10,7 +10,7 @@
         <button
           class="w-10 h-10 bg-white rounded-full hover:bg-primary duration-500 opacity-90 hover:opacity-100 hover:scale-110"
           @click="openWorkGrid" @mouseover="showLabelMyWork(true)" @mouseleave="showLabelMyWork(false)"></button>
-        <span :class="['my-work-label text-xs mt-2', showLabelClass]">My work</span>
+        <span :class="['my-work-label text-xs mt-2', showLabelClass]">{{ showWorkGrid ? 'Close' : 'My work' }}</span>
       </div>
     </div>
     <div :style="bgImageStyle" class="bg-cover bg-center bg-no-repeat absolute top-0 left-0 right-0 bottom-0"

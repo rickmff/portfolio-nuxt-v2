@@ -87,10 +87,7 @@
 <script setup lang="ts">
 import { onMounted, ref, nextTick, computed } from "vue";
 import ContentfulService from "@/services/contentful.services";
-
-interface ContentItem {
-  title: string;
-}
+import { searchByTitle, type ContentItem } from "@/utils/SearchByTitle"
 
 interface ProfileItem extends ContentItem {
   content: {
@@ -132,9 +129,6 @@ const mainContentHTML = computed((): string => {
   if (import.meta.server) return '';
   return mainContent.value?.outerHTML || "";
 });
-
-const searchByTitle = <T extends ContentItem>(array: T[], title: string): T | null =>
-  array.find((item) => item.title === title) || null;
 
 onMounted(async () => {
   try {

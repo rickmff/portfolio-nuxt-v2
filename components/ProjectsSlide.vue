@@ -1,48 +1,40 @@
 <template>
   <div ref="containerRef">
-    <div 
-      id="image-track" 
-      ref="trackRef"
-      :style="{ transform: `translateX(${trackPosition}px)` }" 
-      @mousedown="handleOnDown"
-      @touchstart="handleOnDown"
-    >
-      <img 
-        v-for="(image, index) in images" 
-        :key="index" 
-        :src="image.src" 
-        class="image" 
-        draggable="false" 
-      />
+    <!-- Check if projects exist and have at least one item -->
+    <div v-if="projects && projects.length > 0 && projects[0].thumb">
+      <div id="image-track" ref="trackRef" :style="{ transform: `translateX(${trackPosition}px)` }"
+        @mousedown="handleOnDown" @touchstart="handleOnDown">
+        <!-- Check if thumb exists and iterate over it -->
+        <div v-for="(thumb, index) in projects[0].thumb" :key="thumb.fields.title" class="group w-[32rem] hover:z-10">
+          <img :src="thumb.fields.file.url" draggable="false"
+            class="max-w-auto my-3 opacity-30 aspect-video group-hover:scale-125 hover:opacity-100 transition-all duration-500"
+            @dblclick="console.log(thumb.fields.description)" :alt="thumb.fields.title" />
+          <div class="flex justify-between items-baseline group-hover:pt-8 group-hover:scale-125 transition-all duration-500">
+            <a :href="thumb.fields.description" target="_blank">
+              <Text tag="p">@{{ thumb.fields.title }}</Text>
+            </a>
+            <Text tag="span" class="opacity-30">2022</Text>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-else>
+      <!-- Loading or empty state -->
+      <p>Loading...</p>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, computed } from 'vue';
+import { ref, onMounted, computed } from 'vue';
+import ContentfulService from "@/services/contentful.services";
 
-// Image data
-const images = ref([
-  { src: 'https://images.unsplash.com/photo-1524781289445-ddf8f5695861?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80' },
-  { src: 'https://images.unsplash.com/photo-1610194352361-4c81a6a8967e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1674&q=80' },
-  { src: 'https://images.unsplash.com/photo-1618202133208-2907bebba9e1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80' },
-  { src: 'https://images.unsplash.com/photo-1495805442109-bf1cf975750b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80' },
-  { src: 'https://images.unsplash.com/photo-1548021682-1720ed403a5b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80' },
-  { src: 'https://images.unsplash.com/photo-1496753480864-3e588e0269b3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2134&q=80' },
-  { src: 'https://images.unsplash.com/photo-1613346945084-35cccc812dd5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1759&q=80' },
-  { src: 'https://images.unsplash.com/photo-1516681100942-77d8e7f9dd97?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80' }
-]);
-
-// Refs for DOM elements
 const containerRef = ref(null);
 const trackRef = ref(null);
-
-// State variables
 const mouseDownAt = ref(0);
 const prevPosition = ref(0);
 const trackPosition = ref(0);
 
-// Computed property for maximum scroll
 const maxScroll = computed(() => {
   if (containerRef.value && trackRef.value) {
     return containerRef.value.clientWidth - trackRef.value.scrollWidth;
@@ -50,9 +42,12 @@ const maxScroll = computed(() => {
   return 0;
 });
 
-// Event handlers
 const handleOnDown = (e) => {
-  mouseDownAt.value = e.clientX || e.touches[0].clientX;
+  if (e instanceof MouseEvent) {
+    mouseDownAt.value = e.clientX;
+  } else if (e instanceof TouchEvent) {
+    mouseDownAt.value = e.touches[0].clientX;
+  }
   document.addEventListener('mousemove', handleOnMove);
   document.addEventListener('touchmove', handleOnMove);
   document.addEventListener('mouseup', handleOnUp);
@@ -70,42 +65,44 @@ const handleOnUp = () => {
 
 const handleOnMove = (e) => {
   if (mouseDownAt.value === 0) return;
-
-  const mouseDelta = parseFloat(mouseDownAt.value) - (e.clientX || e.touches[0].clientX);
+  let clientX = 0;
+  if (e instanceof MouseEvent) {
+    clientX = e.clientX;
+  } else if (e instanceof TouchEvent) {
+    clientX = e.touches[0].clientX;
+  }
+  const mouseDelta = mouseDownAt.value - clientX;
   const newPosition = prevPosition.value - mouseDelta;
-
-  // Constrain the position within bounds
   trackPosition.value = Math.max(Math.min(newPosition, 0), maxScroll.value);
 };
 
-// Lifecycle hooks
 onMounted(() => {
-  // Initial position calculation
   if (containerRef.value && trackRef.value) {
     const initialScroll = (containerRef.value.clientWidth - trackRef.value.scrollWidth) / 2;
     trackPosition.value = Math.max(initialScroll, maxScroll.value);
     prevPosition.value = trackPosition.value;
   }
 });
-</script>
 
+const projects = ref(null);
+
+onMounted(async () => {
+  try {
+    projects.value = await ContentfulService.getEntries("projects");
+  } catch (error) {
+    console.error("Failed to fetch data:", error);
+  }
+});
+</script>
 
 <style scoped>
 #image-track {
   display: flex;
-  gap: 4vmin;
+  gap: 2vmin;
   position: absolute;
-  left: 0;
-  top: 50%;
+  left: 40%;
+  top: 60%;
   transform: translateY(-50%);
   user-select: none;
-}
-
-#image-track > .image {
-  width: 40vmin;
-  height: 56vmin;
-  object-fit: cover;
-  object-position: center;
-  will-change: transform;  /* Optimize for animations */
 }
 </style>
