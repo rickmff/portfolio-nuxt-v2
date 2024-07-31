@@ -13,12 +13,18 @@
         <span :class="['my-work-label text-xs mt-2', showLabelClass]">My work</span>
       </div>
     </div>
-    <div class="absolute bottom-0 bg-black w-full h-40 gradient-black-to-transparent"></div>
     <div :style="bgImageStyle" class="bg-cover bg-center bg-no-repeat zoom absolute top-0 left-0 right-0 bottom-0">
     </div>
+    <div class="absolute bottom-5 right-5 opacity-50">
+      <div class="bg-secondary rounded-md p-1 flex justify-center items-center w-5 h-5 text-xs m-auto origin-center">↑</div>
+      <div class="flex gap-1 mt-1">
+        <div v-for="i in ['←', '↓', '→']"
+          class="bg-secondary rounded-md p-1 flex justify-center items-center w-5 h-5 text-xs origin-center">{{ i }}</div>
+      </div>
+    </div>
   </div>
-  <div class="absolute bottom-8 left-8 flex gap-5 transition-all duration-1000" :class="{'opacity-0': !showWorkGrid}">
-    <div v-for="i in 6" class="w-80 h-80 border rounded-md border-[#ffffff1a]"></div>
+  <div class="absolute bottom-8 left-8 flex gap-5 transition-all duration-1000 overflow-hidden" :class="{ 'opacity-0': !showWorkGrid }">
+    <div v-for="i in 4" class="w-80 h-80 border rounded-md border-[#ffffff1a]"></div>
   </div>
 </template>
 
@@ -50,6 +56,7 @@ const showLabelClass = computed(() => {
 const bgImageStyle = computed(() => {
   return hero.value ? `background-image: url('${hero.value}')` : "";
 });
+
 
 function handleScroll() {
   const scrollY = window.scrollY;
