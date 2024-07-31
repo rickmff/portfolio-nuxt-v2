@@ -1,6 +1,6 @@
 <template>
   <Loading />
-  <div id="hero" class="h-[101vh] w-screen overflow-hidden relative bg-bottom bg-no-repeat transition-all duration-1000"
+  <div id="hero" class="z-10 h-[101vh] w-screen overflow-hidden relative bg-bottom bg-no-repeat transition-all duration-1000"
     :class="{ '-translate-y-2/4': showWorkGrid }">
     <div class="relative w-full h-screen flex justify-center items-center z-10">
       <Text tag="h1" text="Henrique Faria" class="transition-all duration-1000"
@@ -16,6 +16,7 @@
     <div :style="bgImageStyle" class="bg-cover bg-center bg-no-repeat zoom absolute top-0 left-0 right-0 bottom-0">
     </div>
   </div>
+  <div v-if="showWorkGrid" class="w-80 h-80 border rounded-xl border-white absolute bottom-5 left-5"></div>
 </template>
 
 <script setup lang="ts">
