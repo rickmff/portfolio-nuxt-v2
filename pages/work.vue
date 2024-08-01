@@ -1,7 +1,7 @@
 <template>
-  <Loading />
-  <div id="hero"
-    class="z-10 overflow-hidden relative bg-bottom bg-no-repeat transition-all duration-1000"
+  <!--   <Loading />
+ -->
+  <div id="hero" class="z-10 overflow-hidden relative bg-bottom bg-no-repeat transition-all duration-1000"
     :class="{ '-translate-y-2/4': showWorkGrid }">
     <div class="relative h-screen flex justify-center items-center z-10">
       <Text tag="h1" text="Henrique Faria" class="transition-all duration-1000"

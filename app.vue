@@ -23,8 +23,9 @@ useSeoMeta({
   ogImage: "https://example.com/image.png",
   twitterCard: "summary_large_image",
 });
-
-document.onkeydown = checkKey;
+onMounted( ()=> {
+  document.onkeydown = checkKey;
+})
 const router = useRoute()
 function checkKey(e: KeyboardEvent | undefined) {
   e = e || (window.event as KeyboardEvent);
