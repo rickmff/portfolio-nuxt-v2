@@ -1,13 +1,10 @@
 <template>
-  <nav class="py-4 fixed w-full z-20 top-0">
+  <nav class="py-4 fixed z-20 md:w-full top-0 left-[30%] md:left-0">
     <ul class="flex space-x-6 justify-center text-lg select-none">
-      <li
-        v-for="item in menuList"
-        :key="item.name"
+      <li v-for="item in menuList" :key="item.name"
         :class="{ 'text-orange-500 opacity-100 font-medium pointer-events-none': isActive(item.name) }"
-        class="opacity-90 capitalize transition duration-500 ease-in-out"
-      >
-        <nuxt-link :to="{ name: item.name }" prefetch>{{ item.name }}</nuxt-link>
+        class="opacity-90 capitalize transition duration-500 ease-in-out">
+        <nuxt-link :to="{ name: item.name }" prefetch draggable="false">{{ item.name }}</nuxt-link>
       </li>
     </ul>
     <button></button>
@@ -33,7 +30,7 @@ const menuList = [
   },
 ];
 
-function isActive (routerName: RouteRecordNameGeneric) {
+function isActive(routerName: RouteRecordNameGeneric) {
   return routerName === route.name;
 };
 </script>

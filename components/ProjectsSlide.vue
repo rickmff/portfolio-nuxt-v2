@@ -7,7 +7,7 @@
         <!-- Check if thumb exists and iterate over it -->
         <div v-for="(thumb, index) in projects[0].thumb" :key="thumb.fields.title" class="group w-[32rem] hover:z-10">
           <img :src="thumb.fields.file.url" draggable="false"
-            class="relative max-w-auto my-3 opacity-30 aspect-video group-hover:scale-125 hover:opacity-100 transition-all duration-500" :alt="thumb.fields.title" />
+            class="relative max-w-auto my-3 md:opacity-30 aspect-video group-hover:scale-125 hover:opacity-100 transition-all duration-500" :alt="thumb.fields.title" />
             <div
             class="group-hover:opacity-50 flex justify-center items-baseline group-hover:pt-8 group-hover:scale-125 opacity-0 transition-all duration-300">
             <a :href="thumb.fields.description" target="_blank" class="flex">

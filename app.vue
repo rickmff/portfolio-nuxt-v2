@@ -1,6 +1,6 @@
 <template>
-  <CustomCursor />
-
+  <!--   <CustomCursor />
+ -->
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>
@@ -29,21 +29,21 @@ const router = useRoute()
 function checkKey(e: KeyboardEvent | undefined) {
   e = e || (window.event as KeyboardEvent);
 
-   if (e.keyCode === 37) {
+  if (e.keyCode === 37) {
     // left arrow
-    if(router.name === 'about') {
+    if (router.name === 'about') {
       navigateTo('work')
     }
-    if(router.name === 'contact') {
+    if (router.name === 'contact') {
       navigateTo('about')
     }
 
   } else if (e.keyCode === 39) {
     // right arrow
-    if(router.name === 'about') {
+    if (router.name === 'about') {
       navigateTo('contact')
     }
-    if(router.name === 'work') {
+    if (router.name === 'work') {
       navigateTo('about')
     }
   }
@@ -51,9 +51,13 @@ function checkKey(e: KeyboardEvent | undefined) {
 </script>
 
 <style>
+* {
+  box-sizing: border-box;
+}
+
 html {
   scroll-behavior: smooth;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 body::-webkit-scrollbar {
