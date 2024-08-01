@@ -57,7 +57,7 @@ function checkKey(e: KeyboardEvent | undefined) {
 
 html {
   scroll-behavior: smooth;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 body::-webkit-scrollbar {
