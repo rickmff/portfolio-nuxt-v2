@@ -98,7 +98,6 @@ onUnmounted(() => {
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Julius+Sans+One&display=swap");
-
 .gradient-black-to-transparent {
   background: linear-gradient(
     180deg,

@@ -43,7 +43,7 @@ const initializeCursor = () => {
 
     window.addEventListener("mousemove", mouseMoveHandler);
 
-    elementsToHoverStyle = document.querySelectorAll("a, button, img");
+    elementsToHoverStyle = document.querySelectorAll("a, button, img, #project-thumb");
     elementsToHoverStyle.forEach((element) => {
       element.addEventListener("mouseenter", handleMouseEnter);
       element.addEventListener("mouseleave", handleMouseLeave);
@@ -140,7 +140,7 @@ body {
   scale: 1.5;
   opacity: 0.5;
   transition: all 1s;
-  background-color: #ff530a36;
+  background-color: #ff530a54;
 }
 
 /* Explicitly set default cursor for links and buttons */

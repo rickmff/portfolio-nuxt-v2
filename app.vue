@@ -46,12 +46,10 @@ useHead({
     },
   ],
 });
-
-/* nextTick(() => {
+onMounted(() => {
   document.addEventListener("keydown", checkKey);
-  });
-  
-const router = useRoute();
+});
+
 const routes = ["work", "about", "contact"];
 
 function checkKey(e: KeyboardEvent) {
@@ -65,7 +63,11 @@ function checkKey(e: KeyboardEvent) {
       (currentIndex + direction + routes.length) % routes.length;
     navigateTo(`/${routes[nextIndex]}`);
   }
-} */
+}
+
+onUnmounted(() => {
+  document.removeEventListener("keydown", checkKey);
+});
 </script>
 
 <style>
