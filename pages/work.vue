@@ -88,7 +88,7 @@ onMounted(() => {
   });
 });
 
-nextTick(() => {
+/* nextTick(() => {
   document.addEventListener("keydown", checkKey);
 });
 
@@ -100,7 +100,7 @@ function checkKey(e: KeyboardEvent) {
   } else if (key === "ArrowDown") {
     return showWorkGrid.value = true;
   }
-}
+} */
 </script>
 
 <style scoped>
