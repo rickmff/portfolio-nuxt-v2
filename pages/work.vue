@@ -49,7 +49,7 @@
       class="absolute top-full left-0 w-full transition-all duration-1000"
       :class="{ 'translate-y-[-45vh]': showWorkGrid }"
     >
-      <ProjectsSlide />
+      <!-- <ProjectsSlide /> -->
     </div>
   </div>
 </template>
