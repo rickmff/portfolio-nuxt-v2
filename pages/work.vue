@@ -15,29 +15,28 @@
         <div class="absolute flex flex-col items-center bottom-20">
           <button
             class="w-10 h-10 bg-white rounded-full hover:bg-primary duration-500 opacity-90 hover:opacity-100 hover:scale-110"
-            @click="openWorkGrid"
+            @click="toggleWorkGrid"
             @mouseover="showLabelMyWork(true)"
             @mouseleave="showLabelMyWork(false)"
           ></button>
-          <span :class="['my-work-label text-xs mt-2', showLabelClass]">{{
-            showWorkGrid ? "Close" : "My work"
-          }}</span>
+          <span :class="['my-work-label text-xs mt-2', { 'opacity-100': showLabel, 'opacity-0': !showLabel }]">
+            {{ showWorkGrid ? "Close" : "My work" }}
+          </span>
         </div>
       </div>
       <div
-        :style="bgImageStyle"
+        :style="{ backgroundImage: `url('${hero}')` }"
         class="bg-cover bg-center bg-no-repeat absolute top-0 left-0 right-0 bottom-0"
         :class="{ zoom: !showWorkGrid }"
       ></div>
       <div class="absolute bottom-5 right-5 opacity-50 hidden md:block">
-        <div
-          class="bg-secondary rounded-md p-1 flex justify-center items-center w-5 h-5 text-xs m-auto origin-center"
-        >
+        <div class="bg-secondary rounded-md p-1 flex justify-center items-center w-5 h-5 text-xs m-auto origin-center">
           ↑
         </div>
         <div class="flex gap-1 mt-1">
           <div
             v-for="arrow in ['←', '↓', '→']"
+            :key="arrow"
             class="bg-secondary rounded-md p-1 flex justify-center items-center w-5 h-5 text-xs origin-center"
           >
             {{ arrow }}
@@ -70,37 +69,31 @@ function showLabelMyWork(isHovering: boolean) {
   showLabel.value = isHovering;
 }
 
-function openWorkGrid() {
+function toggleWorkGrid() {
   showWorkGrid.value = !showWorkGrid.value;
 }
 
-const showLabelClass = computed(() => {
-  return showLabel.value ? "opacity-100" : "opacity-0";
-});
+onMounted(async () => {
+  try {
+    const response = await ContentfulService.getEntries("hero");
+    hero.value = response[0]?.hero?.fields?.file?.url || "";
+  } catch (error) {
+    console.error("Error fetching hero image:", error);
+  }
 
-const bgImageStyle = computed(() => {
-  return hero.value ? `background-image: url('${hero.value}')` : "";
-});
-
-onMounted(() => {
-  ContentfulService.getEntries("hero").then((response) => {
-    hero.value = response[0].hero.fields.file.url;
-  });
-});
-
-/* nextTick(() => {
   document.addEventListener("keydown", checkKey);
 });
 
 function checkKey(e: KeyboardEvent) {
-  const key = e.key;
-  e.preventDefault();
-  if (key === "ArrowUp") {
-    return showWorkGrid.value = false;
-  } else if (key === "ArrowDown") {
-    return showWorkGrid.value = true;
+  if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+    e.preventDefault();
+    showWorkGrid.value = e.key === "ArrowDown";
   }
-} */
+}
+
+onUnmounted(() => {
+  document.removeEventListener("keydown", checkKey);
+});
 </script>
 
 <style scoped>
@@ -119,23 +112,15 @@ function checkKey(e: KeyboardEvent) {
 }
 
 @keyframes scale {
-  0% {
+  0%, 100% {
     transform: scale(1);
   }
   50% {
     transform: scale(1.2);
   }
-  100% {
-    transform: scale(1);
-  }
 }
 
 .my-work-label {
-  opacity: 0;
   transition: opacity 1.5s ease;
-}
-
-.my-work-label.opacity-100 {
-  opacity: 1;
 }
 </style>
