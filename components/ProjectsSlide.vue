@@ -1,34 +1,48 @@
 <template>
-  <div ref="containerRef">
-    <!-- Check if projects exist and have at least one item -->
-    <div v-if="projects && projects.length > 0 && projects[0].thumb">
-      <div id="image-track" ref="trackRef" :style="{ transform: `translateX(${trackPosition}px)` }"
-        @mousedown="handleOnDown" @touchstart="handleOnDown">
-        <!-- Check if thumb exists and iterate over it -->
-        <div v-for="(thumb, index) in projects[0].thumb" :key="thumb.fields.title" class="group w-[32rem] hover:z-10">
-          <img :src="thumb.fields.file.url" draggable="false"
-            class="relative max-w-auto my-3 md:opacity-30 aspect-video group-hover:scale-125 hover:opacity-100 transition-all duration-500" :alt="thumb.fields.title" />
-            <div
-            class="group-hover:opacity-50 flex justify-center items-baseline group-hover:pt-8 group-hover:scale-125 opacity-0 transition-all duration-300">
-            <a :href="thumb.fields.description" target="_blank" class="flex">
-              <Text tag="p" class="text-2xl hover:text-primary">{{ thumb.fields.title }}</Text><img :src="Link" alt="link" class="scale-50 ">
-            </a>
-            <!--             <Text tag="span" class="opacity-30">2022</Text>-->
-          </div>
+  <div
+    ref="containerRef"
+    v-if="projects && projects.length > 0 && projects[0].thumb"
+  >
+    <div
+      ref="trackRef"
+      :style="{ transform: `translateX(${trackPosition}px)` }"
+      @mousedown="handleOnDown"
+      @touchstart="handleOnDown"
+    >
+      <div
+        v-for="thumb in projects[0].thumb"
+        :key="thumb.fields.title"
+        class="group w-[32rem] hover:z-10"
+      >
+        <img
+          :src="thumb.fields.file.url"
+          draggable="false"
+          class="relative max-w-auto my-3 opacity-100 md:opacity-30 aspect-video group-hover:scale-125 hover:opacity-100 transition-all duration-500"
+          :alt="thumb.fields.title"
+        />
+        <div
+          class="group-hover:opacity-50 flex justify-center items-baseline group-hover:pt-8 group-hover:scale-125 opacity-0 transition-all duration-300"
+        >
+          <a :href="thumb.fields.description" target="_blank" class="flex">
+            <Text tag="p" class="text-2xl hover:text-primary">{{
+              thumb.fields.title
+            }}</Text
+            ><img :src="Link" alt="link" class="scale-50" />
+          </a>
+          <!--             <Text tag="span" class="opacity-30">2022</Text>-->
         </div>
       </div>
     </div>
-    <div v-else>
-      <!-- Loading or empty state -->
-      <p>Loading...</p>
-    </div>
+  </div>
+  <div v-else>
+    <p>Loading...</p>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed } from "vue";
 import ContentfulService from "@/services/contentful.services";
-import Link from '@/assets/img/link.gif'
+import Link from "@/assets/img/link.gif";
 
 const containerRef = ref(null);
 const trackRef = ref(null);
@@ -49,19 +63,19 @@ const handleOnDown = (e) => {
   } else if (e instanceof TouchEvent) {
     mouseDownAt.value = e.touches[0].clientX;
   }
-  document.addEventListener('mousemove', handleOnMove);
-  document.addEventListener('touchmove', handleOnMove);
-  document.addEventListener('mouseup', handleOnUp);
-  document.addEventListener('touchend', handleOnUp);
+  document.addEventListener("mousemove", handleOnMove);
+  document.addEventListener("touchmove", handleOnMove);
+  document.addEventListener("mouseup", handleOnUp);
+  document.addEventListener("touchend", handleOnUp);
 };
 
 const handleOnUp = () => {
   mouseDownAt.value = 0;
   prevPosition.value = trackPosition.value;
-  document.removeEventListener('mousemove', handleOnMove);
-  document.removeEventListener('touchmove', handleOnMove);
-  document.removeEventListener('mouseup', handleOnUp);
-  document.removeEventListener('touchend', handleOnUp);
+  document.removeEventListener("mousemove", handleOnMove);
+  document.removeEventListener("touchmove", handleOnMove);
+  document.removeEventListener("mouseup", handleOnUp);
+  document.removeEventListener("touchend", handleOnUp);
 };
 
 const handleOnMove = (e) => {
@@ -79,7 +93,8 @@ const handleOnMove = (e) => {
 
 onMounted(() => {
   if (containerRef.value && trackRef.value) {
-    const initialScroll = (containerRef.value.clientWidth - trackRef.value.scrollWidth) / 2;
+    const initialScroll =
+      (containerRef.value.clientWidth - trackRef.value.scrollWidth) / 2;
     trackPosition.value = Math.max(initialScroll, maxScroll.value);
     prevPosition.value = trackPosition.value;
   }
@@ -95,15 +110,3 @@ onMounted(async () => {
   }
 });
 </script>
-
-<style scoped>
-#image-track {
-  display: flex;
-  gap: 2vmin;
-  position: absolute;
-  left: 40%;
-  top: 58%;
-  transform: translateY(-50%);
-  user-select: none;
-}
-</style>

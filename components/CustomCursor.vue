@@ -43,7 +43,7 @@ const initializeCursor = () => {
 
     window.addEventListener("mousemove", mouseMoveHandler);
 
-    elementsToHoverStyle = document.querySelectorAll("a, button");
+    elementsToHoverStyle = document.querySelectorAll("a, button, img");
     elementsToHoverStyle.forEach((element) => {
       element.addEventListener("mouseenter", handleMouseEnter);
       element.addEventListener("mouseleave", handleMouseLeave);

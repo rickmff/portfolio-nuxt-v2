@@ -1,5 +1,5 @@
 <template>
-  <nav class="py-4 fixed z-20 md:w-full top-0 left-[30%] md:left-0">
+  <nav class="py-4 fixed z-20 w-full top-0 left-0">
     <ul class="flex space-x-6 justify-center text-lg select-none">
       <li v-for="item in menuList" :key="item.name"
         :class="{ 'text-orange-500 opacity-100 font-medium pointer-events-none': isActive(item.name) }"

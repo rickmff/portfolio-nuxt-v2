@@ -1,6 +1,5 @@
 <template>
-  <!--   <CustomCursor />
- -->
+  <CustomCursor />
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>
@@ -11,42 +10,60 @@ import { useRoute } from "vue-router";
 const route = useRoute();
 
 useSeoMeta({
-  title: () =>
-    `${route.path === "/"
-      ? "Home"
-      : route.path.replace("/", "").charAt(0).toUpperCase() +
-      route.path.replace("/", "").slice(1)
-    }`,
-  ogTitle: "My Amazing Site",
-  description: "This is my amazing site, let me tell you all about it.",
-  ogDescription: "This is my amazing site, let me tell you all about it.",
-  ogImage: "https://example.com/image.png",
-  twitterCard: "summary_large_image",
+  robots: "index, follow",
 });
-onMounted( ()=> {
-  document.onkeydown = checkKey;
-})
-const router = useRoute()
-function checkKey(e: KeyboardEvent | undefined) {
-  e = e || (window.event as KeyboardEvent);
 
-  if (e.keyCode === 37) {
-    // left arrow
-    if (router.name === 'about') {
-      navigateTo('work')
-    }
-    if (router.name === 'contact') {
-      navigateTo('about')
-    }
+useSeoMeta({
+  title: () =>
+    `${
+      route.path === "/"
+        ? "Work"
+        : route.path.replace("/", "").charAt(0).toUpperCase() +
+          route.path.replace("/", "").slice(1)
+    } | Rickmff Portfolio`,
+  ogTitle: "Rickmff Portfolio",
+  description: "This is Rickmff Portfolio.",
+  ogDescription: "This is Rickmff Portfolio.",
+  ogImage: "/Hero.png",
+  twitterCard: "summary_large_image",
+  twitterTitle: () =>
+    `Rickmff Portfolio - ${
+      route.path === "/"
+        ? "Work"
+        : route.path.replace("/", "").charAt(0).toUpperCase() +
+          route.path.replace("/", "").slice(1)
+    }`,
+  twitterDescription: "This is Rickmff Portfolio.",
+  twitterImage: "/Hero.png",
+  robots: "index, follow",
+});
 
-  } else if (e.keyCode === 39) {
-    // right arrow
-    if (router.name === 'about') {
-      navigateTo('contact')
-    }
-    if (router.name === 'work') {
-      navigateTo('about')
-    }
+useHead({
+  link: [
+    {
+      rel: "canonical",
+      href: () => `https://rickmff.com${route.path}`,
+    },
+  ],
+});
+
+nextTick(() => {
+  document.addEventListener("keydown", checkKey);
+});
+
+const router = useRoute();
+const routes = ["work", "about", "contact"];
+
+function checkKey(e: KeyboardEvent) {
+  const key = e.key;
+  const currentIndex = routes.indexOf(route.name as string);
+
+  if (key === "ArrowLeft" || key === "ArrowRight") {
+    e.preventDefault(); // Prevent default scroll behavior
+    const direction = key === "ArrowLeft" ? -1 : 1;
+    const nextIndex =
+      (currentIndex + direction + routes.length) % routes.length;
+    navigateTo(`/${routes[nextIndex]}`);
   }
 }
 </script>
