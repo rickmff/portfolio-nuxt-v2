@@ -125,13 +125,13 @@ onMounted(() => {
   }
 });
 
-watch(() => props.enableScroll, (newValue) => {
+/* watch(() => props.enableScroll, (newValue) => {
   if (newValue && containerRef.value) {
     containerRef.value.addEventListener("wheel", handleScroll);
   } else if (containerRef.value) {
     containerRef.value.removeEventListener("wheel", handleScroll);
   }
-});
+}); */
 
 const projects = ref(null);
 
