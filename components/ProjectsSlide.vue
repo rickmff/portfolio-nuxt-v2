@@ -1,41 +1,41 @@
 <template>
-  <div
-    ref="containerRef"
-    v-if="projects && projects.length > 0 && projects[0].thumb"
-  >
-    <div
-      ref="trackRef"
-      :style="{ transform: `translateX(${trackPosition}px)` }"
-      @mousedown="handleOnDown"
-      @touchstart="handleOnDown"
-    >
+  <div class="relative w-full overflow-hidden" ref="containerRef">
+    <div v-if="projects && projects.length > 0 && projects[0].thumb" class="py-8">
       <div
-        v-for="thumb in projects[0].thumb"
-        :key="thumb.fields.title"
-        class="group w-[32rem] hover:z-10"
+        ref="trackRef"
+        :style="{ transform: `translateX(${trackPosition}px)` }"
+        @mousedown="handleOnDown"
+        @touchstart="handleOnDown"
+        class="flex gap-5 transition-transform duration-300 ease-out"
       >
-        <img
-          :src="thumb.fields.file.url"
-          draggable="false"
-          class="relative max-w-auto my-3 opacity-100 md:opacity-30 aspect-video group-hover:scale-125 hover:opacity-100 transition-all duration-500"
-          :alt="thumb.fields.title"
-        />
         <div
-          class="group-hover:opacity-50 flex justify-center items-baseline group-hover:pt-8 group-hover:scale-125 opacity-0 transition-all duration-300"
+          v-for="thumb in projects[0].thumb"
+          :key="thumb.fields.title"
+          class="group flex-shrink-0 w-[calc(100vw-2rem)] sm:w-[calc(50vw-2rem)] md:w-[32rem] hover:z-10 hover:scale-110  transition-all duration-500"
         >
-          <a :href="thumb.fields.description" target="_blank" class="flex">
-            <Text tag="p" class="text-2xl hover:text-primary">{{
-              thumb.fields.title
-            }}</Text
-            ><img :src="Link" alt="link" class="scale-50" />
-          </a>
-          <!--             <Text tag="span" class="opacity-30">2022</Text>-->
+          <div class="relative overflow-hidden shadow-lg">
+            <img
+              :src="thumb.fields.file.url"
+              :alt="thumb.fields.title"
+              class="w-full aspect-video object-cover opacity-100 md:opacity-30 group-hover:opacity-100  transition-all duration-500"
+              draggable="false"
+            />
+            <div
+              class="absolute md:opacity-0 opacity-100 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-black/60 to-transparent"
+            >
+              <NuxtLink :to="thumb.fields.description" target="_blank" class="flex items-center gap-2 p-4 text-white hover:text-primary transition-colors duration-300">
+                <img :src="Link" class="w-5 h-5" />
+              </NuxtLink>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div v-else>
-    <p>Loading...</p>
+    <div v-else class="flex justify-center items-center h-32">
+      <p class="text-lg text-gray-500">Loading...</p>
+    </div>
+    <div class="absolute top-0 bottom-0 left-0 w-16 bg-gradient-to-r from-background to-transparent pointer-events-none"></div>
+    <div class="absolute top-0 bottom-0 right-0 w-16 bg-gradient-to-l from-background to-transparent pointer-events-none"></div>
   </div>
 </template>
 

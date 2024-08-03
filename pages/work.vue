@@ -1,50 +1,57 @@
 <template>
-  <div
-    id="hero"
-    class="z-10 overflow-hidden relative bg-bottom bg-no-repeat transition-all duration-1000"
-    :class="{ '-translate-y-2/4': showWorkGrid }"
-  >
-    <div class="relative h-screen flex justify-center items-center z-10">
-      <Text
-        tag="h1"
-        text="Henrique Faria"
-        class="transition-all duration-1000"
-        :class="{ 'translate-y-[300%]': showWorkGrid }"
-      />
-      <div class="absolute flex flex-col items-center bottom-20">
-        <button
-          class="w-10 h-10 bg-white rounded-full hover:bg-primary duration-500 opacity-90 hover:opacity-100 hover:scale-110"
-          @click="openWorkGrid"
-          @mouseover="showLabelMyWork(true)"
-          @mouseleave="showLabelMyWork(false)"
-        ></button>
-        <span :class="['my-work-label text-xs mt-2', showLabelClass]">{{
-          showWorkGrid ? "Close" : "My work"
-        }}</span>
-      </div>
-    </div>
+  <div class="relative overflow-hidden">
     <div
-      :style="bgImageStyle"
-      class="bg-cover bg-center bg-no-repeat absolute top-0 left-0 right-0 bottom-0"
-      :class="{ zoom: !showWorkGrid }"
-    ></div>
-    <div class="absolute bottom-5 right-5 opacity-50 hidden md:block">
-      <div
-        class="bg-secondary rounded-md p-1 flex justify-center items-center w-5 h-5 text-xs m-auto origin-center"
-      >
-        ↑
+      id="hero"
+      class="z-10 relative bg-bottom bg-no-repeat transition-all duration-1000"
+      :class="{ 'translate-y-[-45vh]': showWorkGrid }"
+    >
+      <div class="relative h-screen flex justify-center items-center z-10">
+        <Text
+          tag="h1"
+          text="Henrique Faria"
+          class="transition-all duration-1000"
+          :class="{ 'translate-y-[300%]': showWorkGrid }"
+        />
+        <div class="absolute flex flex-col items-center bottom-20">
+          <button
+            class="w-10 h-10 bg-white rounded-full hover:bg-primary duration-500 opacity-90 hover:opacity-100 hover:scale-110"
+            @click="openWorkGrid"
+            @mouseover="showLabelMyWork(true)"
+            @mouseleave="showLabelMyWork(false)"
+          ></button>
+          <span :class="['my-work-label text-xs mt-2', showLabelClass]">{{
+            showWorkGrid ? "Close" : "My work"
+          }}</span>
+        </div>
       </div>
-      <div class="flex gap-1 mt-1">
+      <div
+        :style="bgImageStyle"
+        class="bg-cover bg-center bg-no-repeat absolute top-0 left-0 right-0 bottom-0"
+        :class="{ zoom: !showWorkGrid }"
+      ></div>
+      <div class="absolute bottom-5 right-5 opacity-50 hidden md:block">
         <div
-          v-for="arrow in ['←', '↓', '→']"
-          class="bg-secondary rounded-md p-1 flex justify-center items-center w-5 h-5 text-xs origin-center"
+          class="bg-secondary rounded-md p-1 flex justify-center items-center w-5 h-5 text-xs m-auto origin-center"
         >
-          {{ arrow }}
+          ↑
+        </div>
+        <div class="flex gap-1 mt-1">
+          <div
+            v-for="arrow in ['←', '↓', '→']"
+            class="bg-secondary rounded-md p-1 flex justify-center items-center w-5 h-5 text-xs origin-center"
+          >
+            {{ arrow }}
+          </div>
         </div>
       </div>
     </div>
+    <div 
+      class="absolute top-full left-0 w-full transition-all duration-1000"
+      :class="{ 'translate-y-[-45vh]': showWorkGrid }"
+    >
+      <ProjectsSlide />
+    </div>
   </div>
-  <ProjectsSlide />
 </template>
 
 <script setup lang="ts">
@@ -99,26 +106,12 @@ onMounted(() => {
 
 @keyframes scale {
   0% {
-    -webkit-transform: scale(1);
-    -moz-transform: scale(1);
-    -ms-transform: scale(1);
-    -o-transform: scale(1);
     transform: scale(1);
   }
-
   50% {
-    -webkit-transform: scale(1.2);
-    -moz-transform: scale(1.2);
-    -ms-transform: scale(1.2);
-    -o-transform: scale(1.2);
     transform: scale(1.2);
   }
-
   100% {
-    -webkit-transform: scale(1);
-    -moz-transform: scale(1);
-    -ms-transform: scale(1);
-    -o-transform: scale(1);
     transform: scale(1);
   }
 }
