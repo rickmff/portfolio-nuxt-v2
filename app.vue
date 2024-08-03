@@ -47,7 +47,7 @@ useHead({
   ],
 });
 
-nextTick(() => {
+/* nextTick(() => {
   document.addEventListener("keydown", checkKey);
 });
 
@@ -64,7 +64,7 @@ function checkKey(e: KeyboardEvent) {
       (currentIndex + direction + routes.length) % routes.length;
     navigateTo(`/${routes[nextIndex]}`);
   }
-}
+} */
 </script>
 
 <style>
