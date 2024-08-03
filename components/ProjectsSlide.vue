@@ -66,7 +66,7 @@ const maxScroll = computed(() => {
   return 0;
 });
 
-const handleOnDown = (e) => {
+/* const handleOnDown = (e) => {
   if (e instanceof MouseEvent) {
     mouseDownAt.value = e.clientX;
   } else if (e instanceof TouchEvent) {
@@ -85,7 +85,7 @@ const handleOnUp = () => {
   document.removeEventListener("touchmove", handleOnMoveThrottled);
   document.removeEventListener("mouseup", handleOnUp);
   document.removeEventListener("touchend", handleOnUp);
-};
+}; */
 
 const handleOnMove = (e) => {
   if (mouseDownAt.value === 0) return;
@@ -120,9 +120,9 @@ onMounted(() => {
     }
   });
 
-  if (props.enableScroll && containerRef.value) {
+/*   if (props.enableScroll && containerRef.value) {
     containerRef.value.addEventListener("wheel", handleScroll);
-  }
+  } */
 });
 
 /* watch(() => props.enableScroll, (newValue) => {
