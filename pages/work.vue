@@ -45,7 +45,7 @@
       </div>
     </div>
     <div 
-      class="absolute top-full left-0 w-full transition-all duration-1000"
+      class="absolute top-full left-0 w-full transition-all duration-1000 projects-slide"
       :class="{ 'translate-y-[-45vh]': showWorkGrid }"
     >
       <ProjectsSlide />
@@ -54,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import ContentfulService from "@/services/contentful.services";
 
 definePageMeta({
@@ -73,6 +73,33 @@ function toggleWorkGrid() {
   showWorkGrid.value = !showWorkGrid.value;
 }
 
+let lastScrollTime = 0;
+const scrollCooldown = 1000; // 1 second cooldown
+
+function handleScroll(event: WheelEvent) {
+  const currentTime = new Date().getTime();
+  if (currentTime - lastScrollTime < scrollCooldown) {
+    return;
+  }
+
+  // Check if the scroll event originated from within the ProjectsSlide component
+  const projectsSlide = (event.target as Element).closest('.projects-slide');
+  if (projectsSlide) {
+    // If the scroll event is from ProjectsSlide, don't handle it
+    return;
+  }
+
+  if (event.deltaY > 0 && !showWorkGrid.value) {
+    // Scrolling down, open the work grid
+    showWorkGrid.value = true;
+    lastScrollTime = currentTime;
+  } else if (event.deltaY < 0 && showWorkGrid.value) {
+    // Scrolling up, close the work grid
+    showWorkGrid.value = false;
+    lastScrollTime = currentTime;
+  }
+}
+
 onMounted(async () => {
   try {
     const response = await ContentfulService.getEntries("hero");
@@ -80,7 +107,8 @@ onMounted(async () => {
   } catch (error) {
     console.error("Error fetching hero image:", error);
   }
-
+  
+  window.addEventListener("wheel", handleScroll, { passive: false });
   document.addEventListener("keydown", checkKey);
 });
 
@@ -92,19 +120,13 @@ function checkKey(e: KeyboardEvent) {
 }
 
 onUnmounted(() => {
+  window.removeEventListener("wheel", handleScroll);
   document.removeEventListener("keydown", checkKey);
 });
 </script>
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Julius+Sans+One&display=swap");
-.gradient-black-to-transparent {
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0.65) 0%,
-    rgba(0, 0, 0, 0) 100%
-  );
-}
 
 .zoom {
   animation: scale 30s linear infinite;

@@ -1,5 +1,5 @@
 <template>
-  <div ref="mainContent" class="relative" v-scroll-on-hold>
+  <div ref="mainContent" class="relative">
     <div class="flex justify-center">
       <!-- Minimap container -->
       <ClientOnly>
@@ -17,14 +17,6 @@
             }}</span><br><br>
           <span class="leading-normal">{{ profile?.content.content[2] }}</span>
         </p>
-        <!--         <div class="flex flex-col justify-center items-start my-64 pr-10">
-          <Text tag="h1" :text="profile?.title"/>
-          <Text tag="p" class="text-3xl xl:text-4xl xl:pr-60 my-10 leading-normal"><Text tag="span" class="leading-normal">{{
-            profile?.content.content[0] }}</Text> <br><Text tag="span" class="leading-normal">{{ profile?.content.content[1]
-              }}</Text><br><br>
-            <Text tag="span" class="leading-normal">{{ profile?.content.content[2] }}</Text>
-          </Text>
-        </div> -->
         <!-- certificates -->
         <div class="flex flex-col justify-center items-start my-64">
           <h2 class="font-hero font-bold text-6xl xl:text-8xl -m-1 my-10 text-secondary ">
