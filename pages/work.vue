@@ -87,6 +87,20 @@ onMounted(() => {
     hero.value = response[0].hero.fields.file.url;
   });
 });
+
+nextTick(() => {
+  document.addEventListener("keydown", checkKey);
+});
+
+function checkKey(e: KeyboardEvent) {
+  const key = e.key;
+  e.preventDefault();
+  if (key === "ArrowUp") {
+    return showWorkGrid.value = false;
+  } else if (key === "ArrowDown") {
+    return showWorkGrid.value = true;
+  }
+}
 </script>
 
 <style scoped>

@@ -51,7 +51,6 @@ nextTick(() => {
   document.addEventListener("keydown", checkKey);
 });
 
-const router = useRoute();
 const routes = ["work", "about", "contact"];
 
 function checkKey(e: KeyboardEvent) {

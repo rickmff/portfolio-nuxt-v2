@@ -3,7 +3,7 @@
     <div v-if="projects && projects.length > 0 && projects[0].thumb" class="py-8">
       <div
         ref="trackRef"
-        :style="{ transform: `translateX(${trackPosition}px)` }"
+        :style="{ transform: `translateX(${trackPosition}px)`, willChange: 'transform' }"
         @mousedown="handleOnDown"
         @touchstart="handleOnDown"
         class="flex gap-5 transition-transform duration-300 ease-out"
@@ -11,13 +11,13 @@
         <div
           v-for="thumb in projects[0].thumb"
           :key="thumb.fields.title"
-          class="group flex-shrink-0 w-[calc(100vw-2rem)] sm:w-[calc(50vw-2rem)] md:w-[32rem] hover:z-10 hover:scale-110  transition-all duration-500"
+          class="group flex-shrink-0 w-[calc(100vw-2rem)] sm:w-[calc(50vw-2rem)] md:w-[32rem] hover:z-10 hover:scale-110 transition-all duration-500"
         >
           <div class="relative overflow-hidden shadow-lg">
             <img
               :src="thumb.fields.file.url"
               :alt="thumb.fields.title"
-              class="w-full aspect-video object-cover opacity-100 md:opacity-30 group-hover:opacity-100  transition-all duration-500"
+              class="w-full aspect-video object-cover opacity-100 md:opacity-30 group-hover:opacity-100 transition-all duration-500"
               draggable="false"
             />
             <div
@@ -40,9 +40,18 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, watch } from "vue";
+import throttle from "lodash/throttle";
 import ContentfulService from "@/services/contentful.services";
 import Link from "@/assets/img/link.gif";
+
+// Define a prop to toggle the scroll feature
+const props = defineProps({
+  enableScroll: {
+    type: Boolean,
+    default: true,
+  },
+});
 
 const containerRef = ref(null);
 const trackRef = ref(null);
@@ -63,8 +72,8 @@ const handleOnDown = (e) => {
   } else if (e instanceof TouchEvent) {
     mouseDownAt.value = e.touches[0].clientX;
   }
-  document.addEventListener("mousemove", handleOnMove);
-  document.addEventListener("touchmove", handleOnMove);
+  document.addEventListener("mousemove", handleOnMoveThrottled);
+  document.addEventListener("touchmove", handleOnMoveThrottled);
   document.addEventListener("mouseup", handleOnUp);
   document.addEventListener("touchend", handleOnUp);
 };
@@ -72,8 +81,8 @@ const handleOnDown = (e) => {
 const handleOnUp = () => {
   mouseDownAt.value = 0;
   prevPosition.value = trackPosition.value;
-  document.removeEventListener("mousemove", handleOnMove);
-  document.removeEventListener("touchmove", handleOnMove);
+  document.removeEventListener("mousemove", handleOnMoveThrottled);
+  document.removeEventListener("touchmove", handleOnMoveThrottled);
   document.removeEventListener("mouseup", handleOnUp);
   document.removeEventListener("touchend", handleOnUp);
 };
@@ -91,12 +100,36 @@ const handleOnMove = (e) => {
   trackPosition.value = Math.max(Math.min(newPosition, 0), maxScroll.value);
 };
 
+// Throttle the handleOnMove function
+const handleOnMoveThrottled = throttle(handleOnMove, 16); // Approx 60fps
+
+const handleScroll = throttle((e) => {
+  if (!props.enableScroll) return;
+  const scrollAmount = e.deltaY;
+  const newPosition = trackPosition.value - scrollAmount;
+  trackPosition.value = Math.max(Math.min(newPosition, 0), maxScroll.value);
+}, 16);
+
 onMounted(() => {
-  if (containerRef.value && trackRef.value) {
-    const initialScroll =
-      (containerRef.value.clientWidth - trackRef.value.scrollWidth) / 2;
-    trackPosition.value = Math.max(initialScroll, maxScroll.value);
-    prevPosition.value = trackPosition.value;
+  requestAnimationFrame(() => {
+    if (containerRef.value && trackRef.value) {
+      const initialScroll =
+        (containerRef.value.clientWidth - trackRef.value.scrollWidth) / 2;
+      trackPosition.value = Math.max(initialScroll, maxScroll.value);
+      prevPosition.value = trackPosition.value;
+    }
+  });
+
+  if (props.enableScroll && containerRef.value) {
+    containerRef.value.addEventListener("wheel", handleScroll);
+  }
+});
+
+watch(() => props.enableScroll, (newValue) => {
+  if (newValue && containerRef.value) {
+    containerRef.value.addEventListener("wheel", handleScroll);
+  } else if (containerRef.value) {
+    containerRef.value.removeEventListener("wheel", handleScroll);
   }
 });
 
