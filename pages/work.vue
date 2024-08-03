@@ -74,7 +74,7 @@ function toggleWorkGrid() {
 }
 
 let lastScrollTime = 0;
-const scrollCooldown = 1000; // 1 second cooldown
+const scrollCooldown = 1000;
 
 function handleScroll(event: WheelEvent) {
   const currentTime = new Date().getTime();
@@ -85,7 +85,6 @@ function handleScroll(event: WheelEvent) {
   // Check if the scroll event originated from within the ProjectsSlide component
   const projectsSlide = (event.target as Element).closest('.projects-slide');
   if (projectsSlide) {
-    // If the scroll event is from ProjectsSlide, don't handle it
     return;
   }
 
