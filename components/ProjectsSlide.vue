@@ -12,13 +12,13 @@
         }"
         @mousedown="handleOnDown"
         @touchstart="handleOnDown"
-        class="flex gap-5 transition-transform duration-300 ease-out md:ml-32"
+        class="flex gap-5 transition-transform duration-300 ease-out md:ml-40"
       >
         <div
           id="project-thumb"
           v-for="thumb in projects[0].thumb"
           :key="thumb.fields.title"
-          class="group relative shadow-lg flex-shrink-0 w-[calc(100vw-2rem)] sm:w-[calc(50vw-2rem)] md:w-[32rem] hover:z-10 hover:scale-110 transition-all duration-500"
+          class="group relative shadow-lg flex-shrink-0 w-[calc(100vw-3rem)] md:w-[28rem] hover:z-10 hover:scale-110 transition-all duration-500"
         >
           <img
             :src="thumb.fields.file.url"
