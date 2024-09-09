@@ -9,7 +9,7 @@
       :navigation="true"
       :breakpoints="{
         768: {
-          slidesPerView: 2.5,
+          slidesPerView: 3,
           spaceBetween: 30,
         },
       }"
