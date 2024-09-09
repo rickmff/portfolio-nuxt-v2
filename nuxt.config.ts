@@ -1,7 +1,11 @@
 export default defineNuxtConfig({
+  devServer: {
+    port: 8000
+  },
   devtools: { enabled: true },
   css: ['~/assets/css/tailwind.css'],
   plugins: [
+    { src: '~/plugins/swiper.client.ts', mode: 'client' },
     '~/plugins/directives.ts'
   ],
 
