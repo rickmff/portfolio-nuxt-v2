@@ -35,7 +35,7 @@ const initializeCursor = () => {
         ],
         {
           // Animation options
-          duration: 500, // Example duration
+          duration: 150, // Example duration
           fill: "forwards", // Example fill mode
         }
       );
@@ -108,14 +108,14 @@ body {
   width: 4px;
   height: 4px;
   background-color: white;
-  opacity: 0.7;
+  opacity: 0.9;
 }
 
 .cursor-outline {
   width: 30px;
   height: 30px;
   border: 0.5px solid white;
-  opacity: 0.2;
+  opacity: 0.4;
 }
 
 .cursor-dot,
