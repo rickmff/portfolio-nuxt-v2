@@ -3,23 +3,23 @@
     <div class="flex justify-center">
       <!-- Minimap container -->
       <ClientOnly>
-        <div v-if="showMinimap" class="relative w-2/5 lg:block hidden">
+        <div v-animate-on-scroll v-if="showMinimap" class="relative w-2/5 lg:block hidden">
           <Minimap :content="mainContentHTML" />
         </div>
       </ClientOnly>
-      <div class="lg:w-3/5 xs:px-10 w-full px-5 my-64 space-y-12 xs:space-y-32 sm:space-y-64">
-        <!-- Profile -->
-        <div class="flex flex-col justify-center items-start">
-          <h2
+        <div class="lg:w-3/5 xs:px-10 w-full px-5 my-64 space-y-12 xs:space-y-32 sm:space-y-64">
+          <!-- Profile -->
+          <div class="flex flex-col justify-center items-start">
+            <h2
             class="font-hero font-bold text-4xl xs:text-6xl xl:text-8xl -m-2 mb-10 text-secondary"
-          >
+            >
             {{ profile?.title }}
           </h2>
           <p
-            class="text-xl xs:text-3xl xl:text-4xl xl:pr-60 my-10 leading-normal"
+          class="text-xl xs:text-3xl xl:text-4xl xl:pr-60 my-10 leading-normal"
           >
-            <span class="leading-normal">
-              {{ profile?.content.content[0] }}</span
+          <span class="leading-normal">
+            {{ profile?.content.content[0] }}</span
             >
             <br />
             <span class="leading-normal">{{
@@ -31,14 +31,15 @@
             }}</span>
           </p>
         </div>
-        <!-- certificates -->
+        
+        <!-- Certificates -->
         <div class="flex flex-col justify-center items-start">
           <h2
-            class="font-hero font-bold text-4xl xs:text-6xl xl:text-8xl -m-1 my-10 text-secondary"
+          class="font-hero font-bold text-4xl xs:text-6xl xl:text-8xl -m-1 my-10 text-secondary"
           >
-            {{ certificates?.title }}
-          </h2>
-          <div
+          {{ certificates?.title }}
+        </h2>
+        <div
             v-for="item in certificates?.content"
             :key="item.title"
             class="mb-4"
@@ -126,6 +127,8 @@
 import { onMounted, ref, nextTick, computed } from "vue";
 import ContentfulService from "@/services/contentful.services";
 import { searchByTitle, type ContentItem } from "@/utils/SearchByTitle";
+import { useHead } from '#app'
+import { generateSchemaMarkup } from '~/utils/schema'
 
 interface ProfileItem extends ContentItem {
   content: {
@@ -166,6 +169,21 @@ const showMinimap = ref(false);
 const mainContentHTML = computed((): string => {
   if (import.meta.server) return "";
   return mainContent.value?.outerHTML || "";
+});
+
+// Generate the schema
+const schema = generateSchemaMarkup({
+  // You can pass data here if needed
+});
+
+// Use useHead to add the schema to the page
+useHead({
+  script: [
+    {
+      type: 'application/ld+json',
+      children: JSON.stringify(schema)
+    }
+  ]
 });
 
 onMounted(async () => {
