@@ -7,6 +7,8 @@
 
 <script setup lang="ts">
 import { useRoute } from "vue-router";
+import { Analytics } from "@vercel/analytics/nuxt";
+
 const route = useRoute();
 
 useSeoMeta({
