@@ -3,6 +3,7 @@
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>
+  <Analytics />
 </template>
 
 <script setup lang="ts">
