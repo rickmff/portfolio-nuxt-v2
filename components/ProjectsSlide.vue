@@ -10,6 +10,7 @@
       :breakpoints="{
         768: {
           slidesPerView: 3,
+          slidesPerGroup: 3,
           spaceBetween: 30,
         },
       }"
