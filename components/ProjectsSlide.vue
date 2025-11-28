@@ -76,7 +76,7 @@
       </SwiperSlide>
     </Swiper>
     <div v-else class="flex justify-center items-center h-32">
-      <p class="text-lg text-gray-500">{{ loadingMessage }}</p>
+      <p class="text-lg text-gray-300">{{ loadingMessage }}</p>
     </div>
     <div
       class="absolute top-0 bottom-0 left-0 w-16 bg-gradient-to-r from-background to-transparent pointer-events-none"

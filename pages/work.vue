@@ -69,13 +69,13 @@
           </h2>
           <p
             v-if="hoveredProject?.description || hoveredProject?.fields?.summary"
-            class="text-xl md:text-2xl text-secondary opacity-90 leading-relaxed max-w-4xl animate-fade-in-up delay-100"
+            class="text-xl md:text-3xl text-secondary leading-relaxed max-w-4xl animate-fade-in-up delay-100"
           >
             {{ hoveredProject?.description || hoveredProject?.fields?.summary }}
           </p>
           <p
             v-else-if="hoveredProject?.title || hoveredProject?.fields?.title"
-            class="text-xl md:text-2xl text-secondary opacity-70 italic animate-fade-in-up delay-100"
+            class="text-xl md:text-3xl text-secondary italic animate-fade-in-up delay-100"
           >
             {{ hoveredProject?.title || hoveredProject?.fields?.title }}
           </p>
