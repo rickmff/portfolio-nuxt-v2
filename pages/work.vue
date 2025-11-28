@@ -44,12 +44,44 @@
         </div>
       </div>
     </div>
-    <div 
+    <div
       class="absolute top-full left-0 w-full transition-all duration-1000 projects-slide"
       :class="{ 'translate-y-[-45vh]': showWorkGrid }"
     >
-      <ProjectsSlide />
+      <ProjectsSlide @project-hover="handleProjectHover" />
     </div>
+    <!-- Project Summary Overlay - sobrepõe completamente o hero quando deslocado -->
+    <transition
+      enter-active-class="transition-all duration-500 ease-out"
+      enter-from-class="opacity-0"
+      enter-to-class="opacity-100"
+      leave-active-class="transition-all duration-300 ease-in"
+      leave-from-class="opacity-100"
+      leave-to-class="opacity-0"
+    >
+      <div
+        v-if="showWorkGrid && hoveredProject"
+        class="absolute top-0 left-0 right-0 h-[55vh] z-10 flex items-center justify-center bg-background/50 backdrop-blur-md duration-1000"
+      >
+        <div class="w-full h-full p-8 flex flex-col items-center justify-center text-center">
+          <h2 class="text-4xl md:text-6xl font-bold text-primary mb-6 animate-fade-in-up">
+            {{ hoveredProject?.title || hoveredProject?.fields?.title }}
+          </h2>
+          <p
+            v-if="hoveredProject?.description || hoveredProject?.fields?.summary"
+            class="text-xl md:text-2xl text-secondary opacity-90 leading-relaxed max-w-4xl animate-fade-in-up delay-100"
+          >
+            {{ hoveredProject?.description || hoveredProject?.fields?.summary }}
+          </p>
+          <p
+            v-else-if="hoveredProject?.title || hoveredProject?.fields?.title"
+            class="text-xl md:text-2xl text-secondary opacity-70 italic animate-fade-in-up delay-100"
+          >
+            {{ hoveredProject?.title || hoveredProject?.fields?.title }}
+          </p>
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -64,6 +96,7 @@ definePageMeta({
 const hero = ref("");
 const showLabel = ref(false);
 const showWorkGrid = ref(false);
+const hoveredProject = ref<any | null>(null);
 
 function showLabelMyWork(isHovering: boolean) {
   showLabel.value = isHovering;
@@ -71,6 +104,13 @@ function showLabelMyWork(isHovering: boolean) {
 
 function toggleWorkGrid() {
   showWorkGrid.value = !showWorkGrid.value;
+  if (!showWorkGrid.value) {
+    hoveredProject.value = null;
+  }
+}
+
+function handleProjectHover(project: any | null) {
+  hoveredProject.value = project;
 }
 
 let lastScrollTime = 0;
@@ -95,6 +135,7 @@ function handleScroll(event: WheelEvent) {
   } else if (event.deltaY < 0 && showWorkGrid.value) {
     // Scrolling up, close the work grid
     showWorkGrid.value = false;
+    hoveredProject.value = null;
     lastScrollTime = currentTime;
   }
 }
@@ -106,7 +147,7 @@ onMounted(async () => {
   } catch (error) {
     console.error("Error fetching hero image:", error);
   }
-  
+
   window.addEventListener("wheel", handleScroll, { passive: false });
   document.addEventListener("keydown", checkKey);
 });
@@ -114,7 +155,11 @@ onMounted(async () => {
 function checkKey(e: KeyboardEvent) {
   if (e.key === "ArrowUp" || e.key === "ArrowDown") {
     e.preventDefault();
-    showWorkGrid.value = e.key === "ArrowDown";
+    const shouldShow = e.key === "ArrowDown";
+    showWorkGrid.value = shouldShow;
+    if (!shouldShow) {
+      hoveredProject.value = null;
+    }
   }
 }
 

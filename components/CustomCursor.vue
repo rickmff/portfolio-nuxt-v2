@@ -13,7 +13,8 @@ const cursorDot = ref<HTMLElement | null>(null);
 const cursorOutline = ref<HTMLElement | null>(null);
 
 let mouseMoveHandler: ((e: MouseEvent) => void) | null = null;
-let elementsToHoverStyle: NodeListOf<Element> | null = null;
+let mouseEnterHandler: ((e: MouseEvent) => void) | null = null;
+let mouseLeaveHandler: ((e: MouseEvent) => void) | null = null;
 
 const initializeCursor = () => {
   const dot = cursorDot.value;
@@ -41,46 +42,82 @@ const initializeCursor = () => {
       );
     };
 
-    window.addEventListener("mousemove", mouseMoveHandler);
+    // Usa delegação de eventos para capturar elementos dinâmicos
+    mouseEnterHandler = (e: MouseEvent) => {
+      const target = e.target as Element;
+      const relatedTarget = e.relatedTarget as Element;
 
-    elementsToHoverStyle = document.querySelectorAll("a, button, img, #project-thumb");
-    elementsToHoverStyle.forEach((element) => {
-      element.addEventListener("mouseenter", handleMouseEnter);
-      element.addEventListener("mouseleave", handleMouseLeave);
-    });
+      if (target && !relatedTarget?.closest(".project-slide") && !relatedTarget?.matches("a, button, img, #project-thumb")) {
+        if (target.matches("a, button, img, #project-thumb, .project-slide") || target.closest(".project-slide")) {
+          const element = target.closest(".project-slide") || target;
+          handleMouseEnter(e, element);
+        }
+      }
+    };
+
+    mouseLeaveHandler = (e: MouseEvent) => {
+      const target = e.target as Element;
+      const relatedTarget = e.relatedTarget as Element;
+
+      if (target && !relatedTarget?.closest(".project-slide") && !relatedTarget?.matches("a, button, img, #project-thumb")) {
+        if (target.matches("a, button, img, #project-thumb, .project-slide") || target.closest(".project-slide")) {
+          const element = target.closest(".project-slide") || target;
+          handleMouseLeave(e, element);
+        }
+      }
+    };
+
+    window.addEventListener("mousemove", mouseMoveHandler);
+    document.addEventListener("mouseover", mouseEnterHandler);
+    document.addEventListener("mouseout", mouseLeaveHandler);
   }
 };
 
 const cleanupCursor = () => {
   if (mouseMoveHandler) {
     window.removeEventListener("mousemove", mouseMoveHandler);
+    mouseMoveHandler = null;
   }
 
-  if (elementsToHoverStyle) {
-    elementsToHoverStyle.forEach((element) => {
-      element.removeEventListener("mouseenter", handleMouseEnter);
-      element.removeEventListener("mouseleave", handleMouseLeave);
-    });
+  if (mouseEnterHandler) {
+    document.removeEventListener("mouseover", mouseEnterHandler);
+    mouseEnterHandler = null;
+  }
+
+  if (mouseLeaveHandler) {
+    document.removeEventListener("mouseout", mouseLeaveHandler);
+    mouseLeaveHandler = null;
   }
 };
 
-const handleMouseEnter = () => {
+const handleMouseEnter = (e: Event, element: Element) => {
   const dot = cursorDot.value;
   const outline = cursorOutline.value;
   if (dot) dot.style.opacity = "0";
   if (outline) {
     outline.classList.remove("cursor-outline-hoverOut");
     outline.classList.add("cursor-outline-hoverIn");
+
+    // Se for um projeto, aplicar cor laranja
+    if (element.classList.contains("project-slide")) {
+      outline.style.borderColor = "#FF530A";
+      outline.style.backgroundColor = "#ff530a54";
+    } else {
+      outline.style.borderColor = "";
+      outline.style.backgroundColor = "";
+    }
   }
 };
 
-const handleMouseLeave = () => {
+const handleMouseLeave = (e: Event, element: Element) => {
   const dot = cursorDot.value;
   const outline = cursorOutline.value;
   if (dot) dot.style.opacity = "0.7";
   if (outline) {
     outline.classList.remove("cursor-outline-hoverIn");
     outline.classList.add("cursor-outline-hoverOut");
+    outline.style.borderColor = "";
+    outline.style.backgroundColor = "";
   }
 };
 
