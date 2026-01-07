@@ -15,14 +15,6 @@ export default defineNuxtConfig({
       accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
     },
   },
-  hooks: {
-    'pages:extend': (pages) => {
-      pages.push({
-        path: '/',
-        redirect: '/work',
-      });
-    }
-  },
 
   router: {
     options: {
